@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StateOfColors : MonoBehaviour
 {
+    
     public GameObject[] objs;
     private int[] randomNumbers;
     private enum Colors:int
@@ -15,10 +16,11 @@ public class StateOfColors : MonoBehaviour
     }
     private void Start()
     {
-        SetUpColor();
+        StartCoroutine(SetUpColor());
     }
-    void SetUpColor()
+    IEnumerator SetUpColor()
     {
+        int temp=0;
         foreach(GameObject g in objs)
         {
             switch((Colors)Random.Range(0, 4))
@@ -36,7 +38,9 @@ public class StateOfColors : MonoBehaviour
                     g.GetComponent<MeshRenderer>().material.color = Color.yellow;
                     break;
             }
-            
+            temp++;
+            if (temp == objs.Length) GameManage.CanTap = true;
+            yield return new WaitForSeconds(1.5f);
         }
     }
 }
